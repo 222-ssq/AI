@@ -78,10 +78,11 @@ function showResultPage(type) {
   }
 
   document.body.innerHTML = `
-    <h1>${data.title}</h1>
-    <p>${data.desc}</p>
+    <div class="result">
+      <h1>${data.title}</h1>
+      <p>${data.desc}</p>
+    </div>
   `;
 }
-
 // 시작
 showQuestion();
