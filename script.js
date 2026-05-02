@@ -82,3 +82,6 @@ function showResultPage(type) {
     <p>${data.desc}</p>
   `;
 }
+
+// 시작
+showQuestion();
