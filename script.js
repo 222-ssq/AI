@@ -169,12 +169,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let grade = "";
 
   if (total >= 44) grade = "MASTER";
-  else if (total >= 38) grade = "S등급";
-  else if (total >= 33) grade = "A등급";
-  else if (total >= 28) grade = "B등급";
-  else if (total >= 23) grade = "C등급";
-  else if (total >= 19) grade = "D등급";
-  else grade = "F등급";
+  else if (total >= 38) grade = "S";
+  else if (total >= 33) grade = "A";
+  else if (total >= 28) grade = "B";
+  else if (total >= 23) grade = "C";
+  else if (total >= 19) grade = "D";
+  else grade = "F";
 
   document.getElementById("result-screen").innerHTML = `
     <div class="screen">
