@@ -1,7 +1,12 @@
+console.log("JS 실행됨");
+
+function startTest() {
+  
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("start-btn")
     .addEventListener("click", startTest);
 });
+
 
 let questions = [
 
