@@ -1,7 +1,6 @@
-
 let questions = [
 
-/* ================= A축 : AI 활용 능숙도 및 전략적 이용도 ================= */
+/* ================= A축 ================= */
 
 {
   q: "과제를 할 때 AI를 사용한다면 나는 보통 어떻게 활용하는가?",
@@ -43,7 +42,7 @@ let questions = [
   ]
 },
 
-/* ================= B축 : AI 사회 이해도 ================= */
+/* ================= B축 ================= */
 
 {
   q: "내가 AI를 사용하는 가장 큰 이유는?",
@@ -85,7 +84,7 @@ let questions = [
   ]
 },
 
-/* ================= C축 : AI 비판적 사고 ================= */
+/* ================= C축 ================= */
 
 {
   q: "AI 시대에 가장 중요하다고 생각하는 태도는?",
@@ -129,9 +128,6 @@ let questions = [
 
 ];
 
-
-/* ================= 점수 저장 ================= */
-
 let scores = {
   A: 0,
   B: 0,
@@ -141,9 +137,7 @@ let scores = {
 let totalScore = 0;
 let current = 0;
 
-
-/* ================= 시작 ================= */
-
+/* 시작 */
 function startTest() {
 
   document.getElementById("start-screen").classList.add("hidden");
@@ -159,11 +153,10 @@ function startTest() {
     showQuestion();
 
   }, 1500);
+
 }
 
-
-/* ================= 질문 표시 ================= */
-
+/* 질문 표시 */
 function showQuestion() {
 
   if (current >= questions.length) {
@@ -173,8 +166,10 @@ function showQuestion() {
 
   const q = questions[current];
 
-  document.getElementById("question").innerText =
-    `${current + 1}. ${q.q}`;
+  document.getElementById("progress").innerText =
+    `${current + 1} / ${questions.length}`;
+
+  document.getElementById("question").innerText = q.q;
 
   const answersDiv = document.getElementById("answers");
 
@@ -194,9 +189,7 @@ function showQuestion() {
 
 }
 
-
-/* ================= 답변 선택 ================= */
-
+/* 답변 선택 */
 function selectAnswer(answer) {
 
   scores[answer.type] += answer.score;
@@ -209,9 +202,7 @@ function selectAnswer(answer) {
 
 }
 
-
-/* ================= 결과 계산 ================= */
-
+/* 결과 */
 function showResult() {
 
   let grade = "";
@@ -240,7 +231,7 @@ function showResult() {
 
   document.body.innerHTML = `
 
-    <div class="screen result-screen">
+    <div class="screen">
 
       <h1>AI 시대 생존 등급</h1>
 
@@ -250,13 +241,13 @@ function showResult() {
 
       <hr>
 
-      <h3>📊 세부 분석</h3>
+      <h3>세부 능력 평가</h3>
 
-      <p>AI 활용 능숙도 및 전략적 이용도 (A) : ${scores.A}점 / 16점</p>
+      <p>A축 (AI 활용 능숙도) : ${scores.A} / 16</p>
 
-      <p>AI 사회 이해도 (B) : ${scores.B}점 / 16점</p>
+      <p>B축 (AI 사회 이해도) : ${scores.B} / 16</p>
 
-      <p>AI 비판적 사고 (C) : ${scores.C}점 / 16점</p>
+      <p>C축 (AI 비판적 사고) : ${scores.C} / 16</p>
 
       <button onclick="location.reload()">
         다시 테스트하기
@@ -266,4 +257,3 @@ function showResult() {
 
   `;
 }
-```
