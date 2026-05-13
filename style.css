@@ -1,34 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #eef1f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  /* 중요: flex는 화면 흔들림 원인이 될 수 있어 최소화 */
+  display: block;
   height: 100vh;
 }
 
+/* 화면 공통 */
 .screen {
   width: 90%;
-  max-width: 650px;
+  max-width: 600px;
+  margin: 80px auto;
+
   background: white;
   padding: 35px;
   border-radius: 18px;
+
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   text-align: center;
 }
 
+/* 숨김 */
 .hidden {
-  display: none;
+  display: none !important;
 }
 
+/* 제목 */
+h1 {
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* 버튼 */
 button {
   width: 100%;
   padding: 14px;
   margin-top: 10px;
+
   border: none;
   border-radius: 12px;
+
   background: #4f7cff;
   color: white;
+
+  font-size: 16px;
   cursor: pointer;
+}
+
+button:hover {
+  background: #355fe0;
+}
+
+/* 진행 표시 */
+#progress {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
 }
