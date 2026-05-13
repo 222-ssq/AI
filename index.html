@@ -3,30 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <title>AI시대 생존능력 테스트</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .screen {
+      width: 90%;
+      max-width: 600px;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      background: #4f7cff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #3a63d8;
+      transform: scale(1.02);
+    }
+
+    .loader {
+      margin: 30px auto;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #eee;
+      border-top: 5px solid #4f7cff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .progress {
+      margin-bottom: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    hr {
+      margin: 25px 0;
+    }
+
+  </style>
+
 </head>
+
 <body>
 
 <!-- 시작 화면 -->
 <div id="start-screen" class="screen">
+
   <h1>AI시대 생존능력 테스트</h1>
-  <p>AI시대에서 나는 살아남을 수 있을까?</p>
-  <button onclick="startTest()">테스트 시작</button>
+
+  <p>나는 AI 시대에서 얼마나 살아남을 수 있을까?</p>
+
+  <button onclick="startTest()">
+    테스트 시작
+  </button>
+
 </div>
 
 <!-- 로딩 화면 -->
 <div id="loading-screen" class="screen hidden">
+
   <h2>질문 준비 중...</h2>
+
   <div class="loader"></div>
+
 </div>
 
 <!-- 질문 화면 -->
 <div id="quiz-screen" class="screen hidden">
+
+  <div class="progress" id="progress"></div>
+
   <h2 id="question"></h2>
+
   <div id="answers"></div>
+
 </div>
 
-<script src="script.js"></script>
 
-</body>
-</html>
+<script>
