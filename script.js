@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("start-btn")
+    .addEventListener("click", startTest);
+});
+
 let questions = [
 
 /* ================= A축 ================= */
