@@ -161,34 +161,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ================= 결과 ================= */
 
-  function showResult() {
+ function result() {
 
-    let grade = "";
+  document.getElementById("quiz-screen").classList.add("hidden");
+  document.getElementById("result-screen").classList.remove("hidden");
 
-    if (total >= 44) grade = "MASTER";
-    else if (total >= 38) grade = "S";
-    else if (total >= 33) grade = "A";
-    else if (total >= 28) grade = "B";
-    else if (total >= 23) grade = "C";
-    else if (total >= 19) grade = "D";
-    else grade = "F";
+  let grade = "";
 
-    document.body.innerHTML = `
-      <div class="screen">
-        <h1>결과</h1>
-        <h2>${grade}</h2>
+  if (total >= 44) grade = "MASTER";
+  else if (total >= 38) grade = "S";
+  else if (total >= 33) grade = "A";
+  else if (total >= 28) grade = "B";
+  else if (total >= 23) grade = "C";
+  else if (total >= 19) grade = "D";
+  else grade = "F";
 
-        <p>총점: ${total}</p>
+  document.getElementById("result-screen").innerHTML = `
+    <div class="screen">
+      <h1>결과</h1>
 
-        <hr>
+      <h2>${grade}</h2>
 
-        <p>A: ${scores.A}</p>
-        <p>B: ${scores.B}</p>
-        <p>C: ${scores.C}</p>
+      <p>총점: ${total}</p>
 
-        <button onclick="location.reload()">다시하기</button>
-      </div>
-    `;
-  }
+      <hr>
+
+      <p>A 점수: ${scores.A}</p>
+      <p>B 점수: ${scores.B}</p>
+      <p>C 점수: ${scores.C}</p>
+
+      <button onclick="location.reload()">다시하기</button>
+    </div>
+  `;
+}
 
 });
