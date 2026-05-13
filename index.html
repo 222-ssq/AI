@@ -2,7 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>AI시대 생존능력 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AI 생존능력 테스트</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,18 +14,18 @@
 <!-- 시작 화면 -->
 <div id="start-screen" class="screen">
 
-  <h1>AI시대 생존능력 테스트</h1>
+  <h1>AI 생존능력 테스트</h1>
 
-  <p>AI 시대에서 나의 티어는?</p>
+  <p>AI 시대, 나의 티어는?</p>
 
-  <button onclick="startTest()">테스트 시작</button>
+  <button id="start-btn">테스트 시작</button>
 
 </div>
 
 <!-- 로딩 화면 -->
 <div id="loading-screen" class="screen hidden">
 
-  <h2>결과 분석 중...</h2>
+  <h2>티어 측정하러 가는중...</h2>
 
   <div class="loader"></div>
 
@@ -40,7 +42,7 @@
 
 </div>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 
 </body>
 </html>
