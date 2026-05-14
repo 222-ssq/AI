@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI 테스트</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 테스트</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- 시작 화면 -->
 <div id="start-screen" class="screen">
   <h1>AI 생존능력 테스트</h1>
   <button id="start-btn">테스트 시작</button>
 </div>
 
-<!-- 로딩 화면 -->
 <div id="loading-screen" class="screen hidden">
   <h2>로딩중...</h2>
 </div>
 
-<!-- 질문 화면 -->
 <div id="quiz-screen" class="screen hidden">
   <div id="progress"></div>
   <h2 id="question"></h2>
   <div id="answers"></div>
 </div>
 
-<!-- 결과 화면 (이게 빠져서 오류남) -->
 <div id="result-screen" class="screen hidden"></div>
 
 <script src="script.js"></script>
