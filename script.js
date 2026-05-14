@@ -1,3 +1,8 @@
+window.onload = function() {
+
+  document.getElementById("start-btn").addEventListener("click", startTest);
+
+};
 
 const questions = [
 
