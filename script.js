@@ -1,198 +1,482 @@
-document.addEventListener("DOMContentLoaded", () => {
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 생존능력 테스트</title>
 
-  const startBtn = document.getElementById("start-btn");
+  <style>
 
-  const startScreen = document.getElementById("start-screen");
-  const loadingScreen = document.getElementById("loading-screen");
-  const quizScreen = document.getElementById("quiz-screen");
-
-  const questionEl = document.getElementById("question");
-  const answersEl = document.getElementById("answers");
-  const progressEl = document.getElementById("progress");
-
-  /* ================= 질문 ================= */
-
-  const questions = [
-    {
-      q: "과제를 할 때 AI를 사용한다면 나는 보통 어떻게 활용하는가?",
-      answers: [
-        { text: "거의 사용하지 않는다", score: 1, type: "A" },
-        { text: "간단한 검색이나 아이디어 참고만 한다", score: 2, type: "A" },
-        { text: "초안 작성이나 자료 정리에 적극 활용한다.", score: 3, type: "A" },
-        { text: "AI의 답을 분석하고 수정하며 효율적으로 활용한다", score: 4, type: "A" }
-      ]
-    },
-    {
-      q: "AI가 제공한 정보가 사실인지 확인해야 할 때 나는?",
-      answers: [
-        { text: "대부분 그대로 믿는다", score: 1, type: "A" },
-        { text: "가끔 확인한다", score: 2, type: "A" },
-        { text: "여러 자료를 찾아보고 비교하며 확인한다", score: 3, type: "A" },
-        { text: "출처와 오류 가능성까지 검토한다", score: 4, type: "A" }
-      ]
-    },
-    {
-      q: "AI가 만든 결과물이 마음에 들지 않을 때 나는?",
-      answers: [
-        { text: "그냥 사용하거나 포기한다", score: 1, type: "A" },
-        { text: "다시 한번 요청해 본다", score: 2, type: "A" },
-        { text: "원하는 방향을 구체적으로 수정해서 요청한다", score: 3, type: "A" },
-        { text: "문제점을 분석하고 더 정확한 프롬프트를 만든다", score: 4, type: "A" }
-      ]
-    },
-    {
-      q: "AI에게 원하는 결과를 얻기 위해 질문할 때 나는?",
-      answers: [
-        { text: "짧고 단순하게 질문한다", score: 1, type: "A" },
-        { text: "여러 번 다시 질문한다", score: 2, type: "A" },
-        { text: "구체적인 조건을 함께 입력한다", score: 3, type: "A" },
-        { text: "목적과 상황까지 자세히 설명한다", score: 4, type: "A" }
-      ]
-    },
-
-    {
-      q: "새로운 AI 서비스가 나오면 나는?",
-      answers: [
-        { text: "관심이 없다", score: 1, type: "B" },
-        { text: "주변에서 유명하면 사용해 본다", score: 2, type: "B" },
-        { text: "직접 기능을 찾아보고 활용해 본다", score: 3, type: "B" },
-        { text: "활용 방법과 장단점까지 분석한다", score: 4, type: "B" }
-      ]
-    },
-    {
-      q: "AI가 인간의 일자리에 미치는 영향에 대해 나는?",
-      answers: [
-        { text: "잘 모르겠다", score: 1, type: "B" },
-        { text: "일부 직업만 영향을 받을 것 같다", score: 2, type: "B" },
-        { text: "많은 직업이 변화할 것이라고 생각한다", score: 3, type: "B" },
-        { text: "새로운 직업과 기술 역량이 중요해질 것이라 생각한다", score: 4, type: "B" }
-      ]
-    },
-
-    {
-      q: "AI가 만든 그림·글·영상에 대해 나는?",
-      answers: [
-        { text: "사람과 차이를 모르겠다", score: 1, type: "C" },
-        { text: "어느 정도 구분할 수 있다", score: 2, type: "C" },
-        { text: "AI 생성 여부를 의심하며 본다", score: 3, type: "C" },
-        { text: "생성 방식과 저작권 문제까지 생각한다", score: 4, type: "C" }
-      ]
-    },
-    {
-      q: "AI가 잘못된 답을 줄 수도 있다는 사실에 대해 나는?",
-      answers: [
-        { text: "잘 몰랐다", score: 1, type: "C" },
-        { text: "들어본 적은 있다", score: 2, type: "C" },
-        { text: "실제로 경험해 본 적 있다", score: 3, type: "C" },
-        { text: "오류 가능성을 고려하며 사용한다", score: 4, type: "C" }
-      ]
-    },
-    {
-      q: "AI 시대에 가장 중요하다고 생각하는 태도는?",
-      answers: [
-        { text: "AI를 최대한 사용하지 않는 것", score: 1, type: "C" },
-        { text: "필요한 기능만 사용하는 것", score: 2, type: "C" },
-        { text: "AI를 효율적으로 활용하는 것", score: 3, type: "C" },
-        { text: "AI를 이해하고 비판적으로 활용하는 것", score: 4, type: "C" }
-      ]
-    },
-    {
-      q: "AI를 사용할 때 가장 필요한 태도는 무엇이라고 생각하는가?",
-      answers: [
-        { text: "무조건 믿고 사용하는 것", score: 1, type: "C" },
-        { text: "편리만을 위해 사용하는 것", score: 2, type: "C" },
-        { text: "필요한 부분만 활용하는 것", score: 3, type: "C" },
-        { text: "정보를 비판적으로 판단하며 사용하는 것", score: 4, type: "C" }
-      ]
+    *{
+      box-sizing:border-box;
     }
-  ];
 
-  /* ================= 상태 ================= */
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#eef2ff;
+      color:#222;
+    }
 
-  let current = 0;
-  let scores = { A:0, B:0, C:0 };
-  let total = 0;
+    .screen{
+      width:90%;
+      max-width:700px;
+      margin:40px auto;
+      background:white;
+      border-radius:20px;
+      padding:40px 30px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    }
 
-  /* ================= 시작 버튼 ================= */
+    .hidden{
+      display:none;
+    }
 
-  startBtn.addEventListener("click", startTest);
+    h1{
+      font-size:38px;
+      margin-bottom:10px;
+      color:#3b5bdb;
+    }
 
-  function startTest() {
-    startScreen.classList.add("hidden");
-    loadingScreen.classList.remove("hidden");
+    h2{
+      line-height:1.5;
+      margin-bottom:30px;
+    }
 
-    setTimeout(() => {
-      loadingScreen.classList.add("hidden");
-      quizScreen.classList.remove("hidden");
+    p{
+      line-height:1.6;
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      margin-top:12px;
+      border:none;
+      border-radius:14px;
+      background:#4c6ef5;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+
+    button:hover{
+      background:#3b5bdb;
+      transform:translateY(-2px);
+    }
+
+    #progress{
+      margin-bottom:20px;
+      font-weight:bold;
+      color:#666;
+    }
+
+    .result-grade{
+      font-size:60px;
+      font-weight:bold;
+      color:#4c6ef5;
+      margin:20px 0;
+    }
+
+    .score-box{
+      background:#f1f3f5;
+      padding:20px;
+      border-radius:16px;
+      margin-top:20px;
+      text-align:left;
+    }
+
+    .bar-wrap{
+      margin-top:15px;
+    }
+
+    .bar-title{
+      margin-bottom:5px;
+      font-weight:bold;
+    }
+
+    .bar{
+      width:100%;
+      height:18px;
+      background:#dee2e6;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .fill{
+      height:100%;
+      background:#4c6ef5;
+      border-radius:999px;
+    }
+
+    .desc{
+      margin-top:25px;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    .loader{
+      width:50px;
+      height:50px;
+      border:6px solid #dbe4ff;
+      border-top:6px solid #4c6ef5;
+      border-radius:50%;
+      margin:30px auto;
+      animation:spin 1s linear infinite;
+    }
+
+    @keyframes spin{
+      100%{
+        transform:rotate(360deg);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- 시작 화면 -->
+<div id="start-screen" class="screen">
+
+  <h1>AI 생존능력 테스트</h1>
+
+  <p>
+    AI 시대 속에서 나는 얼마나 준비되어 있을까?
+    <br><br>
+    질문에 답하고 나의 AI 활용 능력을 확인해보세요.
+  </p>
+
+  <button id="start-btn">테스트 시작</button>
+
+</div>
+
+<!-- 로딩 화면 -->
+<div id="loading-screen" class="screen hidden">
+
+  <h2>결과 분석 중...</h2>
+
+  <div class="loader"></div>
+
+</div>
+
+<!-- 질문 화면 -->
+<div id="quiz-screen" class="screen hidden">
+
+  <div id="progress"></div>
+
+  <h2 id="question"></h2>
+
+  <div id="answers"></div>
+
+</div>
+
+<!-- 결과 화면 -->
+<div id="result-screen" class="screen hidden"></div>
+
+<script>
+
+const questions = [
+
+{
+  q: "과제를 할 때 AI를 사용한다면 나는 보통 어떻게 활용하는가?",
+  answers: [
+    { text: "거의 사용하지 않는다", scores: { A: 1 } },
+    { text: "간단한 검색이나 아이디어 참고만 한다", scores: { A: 2 } },
+    { text: "초안 작성이나 자료 정리에 적극 활용한다.", scores: { A: 3 } },
+    { text: "AI의 답을 분석하고 수정하며 효율적으로 활용한다", scores: { A: 4 } }
+  ]
+},
+
+{
+  q: "AI에게 원하는 답변을 얻지 못했을 때 나는?",
+  answers: [
+    { text: "사용을 그만둔다", scores: { A: 1 } },
+    { text: "같은 질문을 반복한다", scores: { A: 2 } },
+    { text: "질문 내용을 조금 수정한다", scores: { A: 3 } },
+    { text: "조건·예시·목적을 추가해 더 구체적으로 요청한다", scores: { A: 4 } }
+  ]
+},
+
+{
+  q: "AI에게 원하는 결과를 얻기 위해 질문할 때 나는?",
+  answers: [
+    { text: "짧고 단순한 키워드로 질문한다", scores: { A: 1 } },
+    { text: "여러 번 수정해서 질문한다", scores: { A: 2 } },
+    { text: "구체적인 조건을 입력하여 질문한다", scores: { A: 3 } },
+    { text: "목적과 상황까지 자세히 설명하고 질문한다", scores: { A: 4 } }
+  ]
+},
+
+{
+  q: "새로운 AI 서비스가 나오면 나는?",
+  answers: [
+    { text: "관심이 없다", scores: { A: 1 } },
+    { text: "유행하면 한 번 사용해 본다", scores: { A: 2 } },
+    { text: "기능을 찾아보고 사용해본다", scores: { A: 3 } },
+    { text: "여러 서비스의 특징을 비교하며 상황에 맞게 활용한다", scores: { A: 4 } }
+  ]
+},
+
+{
+  q: "내가 AI를 사용하는 가장 큰 이유는?",
+  answers: [
+    { text: "남들이 써서", scores: { B: 1 } },
+    { text: "시간을 절약하기 위해", scores: { B: 2 } },
+    { text: "문제를 해결하기 위해", scores: { B: 3 } },
+    { text: "활용을 통해 더 좋은 결과를 만들기 위해", scores: { B: 4 } }
+  ]
+},
+
+{
+  q: "AI가 미래 사회에 미치는 영향에 대해 나는?",
+  answers: [
+    { text: "큰 변화는 없을 것 같다", scores: { B: 1 } },
+    { text: "일부 분야만 변할 것 같다", scores: { B: 2 } },
+    { text: "많은 직업과 생활 방식이 변할 것 같다", scores: { B: 3 } },
+    { text: "사회 구조와 인간의 역할 자체가 변화할 것이라 생각한다", scores: { B: 4 } }
+  ]
+},
+
+{
+  q: "학교나 회사에서 AI 활용이 늘어나는 것에 대해 나는?",
+  answers: [
+    { text: "굳이 필요 없다고 생각한다", scores: { B: 1 } },
+    { text: "있으면 편리한 정도라고 생각한다", scores: { B: 2 } },
+    { text: "앞으로 필수적일 기술이라고 생각한다", scores: { B: 3 } },
+    { text: "AI 활용 능력이 경쟁력이 될 것이라 생각한다", scores: { B: 4 } }
+  ]
+},
+
+{
+  q: "AI 기술 발전에 대한 나의 생각은?",
+  answers: [
+    { text: "별로 관심 없다", scores: { B: 1 } },
+    { text: "생활을 조금 편하게 해주는 기술이라고 생각한다", scores: { B: 2 } },
+    { text: "사회를 크게 변화시킬 기술이라고 생각한다", scores: { B: 3 } },
+    { text: "인간의 삶과 가치관까지 영향을 줄 핵심 기술이라고 생각한다", scores: { B: 4 } }
+  ]
+},
+
+{
+  q: "AI 시대에 가장 중요하다고 생각하는 태도는?",
+  answers: [
+    { text: "AI를 최대한 사용하지 않는 것", scores: { C: 1 } },
+    { text: "필요한 기능만 간단히 사용하는 것", scores: { C: 2 } },
+    { text: "AI를 효율적으로 활용하는 것", scores: { C: 3 } },
+    { text: "AI를 이해하고 비판적으로 활용하는 것", scores: { C: 4 } }
+  ]
+},
+
+{
+  q: "AI가 잘못된 답변을 할 수 있다는 사실에 대해 나는?",
+  answers: [
+    { text: "관심없다", scores: { C: 1 } },
+    { text: "별로 큰 문제가 아니라고 생각한다", scores: { C: 2 } },
+    { text: "기술을 더 개발하여 오류를 최소화하여야 한다고 생각한다", scores: { C: 3 } },
+    { text: "항상 AI의 오류 가능성을 고려하며 사용해야 한다고 생각한다", scores: { C: 4 } }
+  ]
+},
+
+{
+  q: "AI가 만든 그림·글·영상에 대해 나는?",
+  answers: [
+    { text: "사람이 만든 것과 구분이 어려워도 별 문제 없다고 생각한다", scores: { C: 1 } },
+    { text: "사람이 만든 것과 얼마든지 구분 가능하다고 생각한다", scores: { C: 2 } },
+    { text: "모든 작품마다 AI 생성 여부를 의심해야 한다고 생각한다", scores: { C: 3 } },
+    { text: "생성 방식과 관련된 저작권·윤리 문제까지 해결해야 한다고 생각한다", scores: { C: 4 } }
+  ]
+},
+
+{
+  q: "AI를 사용할 때 가장 필요한 태도는 무엇이라고 생각하는가?",
+  answers: [
+    { text: "무조건 믿고 사용하는 것", scores: { C: 1 } },
+    { text: "편리만을 위해 사용하는 것", scores: { C: 2 } },
+    { text: "필요한 부분만 활용하는 것", scores: { C: 3 } },
+    { text: "정보를 비판적으로 판단하며 사용하는 것", scores: { C: 4 } }
+  ]
+}
+
+];
+
+let current = 0;
+
+let scores = {
+  A:0,
+  B:0,
+  C:0
+};
+
+let total = 0;
+
+document.getElementById("start-btn").addEventListener("click", startTest);
+
+function startTest(){
+
+  document.getElementById("start-screen").classList.add("hidden");
+
+  document.getElementById("loading-screen").classList.remove("hidden");
+
+  setTimeout(() => {
+
+    document.getElementById("loading-screen").classList.add("hidden");
+
+    document.getElementById("quiz-screen").classList.remove("hidden");
+
+    showQuestion();
+
+  },1500);
+
+}
+
+function showQuestion(){
+
+  if(current >= questions.length){
+    showResult();
+    return;
+  }
+
+  const q = questions[current];
+
+  document.getElementById("progress").innerText =
+  `${current + 1} / ${questions.length}`;
+
+  document.getElementById("question").innerText = q.q;
+
+  const answersDiv = document.getElementById("answers");
+
+  answersDiv.innerHTML = "";
+
+  q.answers.forEach(answer => {
+
+    const btn = document.createElement("button");
+
+    btn.innerText = answer.text;
+
+    btn.onclick = () => {
+
+      const key = Object.keys(answer.scores)[0];
+
+      const value = answer.scores[key];
+
+      scores[key] += value;
+
+      total += value;
+
+      current++;
+
       showQuestion();
-    }, 1000);
-  }
 
-  /* ================= 질문 ================= */
+    };
 
-  function showQuestion() {
+    answersDiv.appendChild(btn);
 
-    if (current >= questions.length) {
-      showResult();
-      return;
-    }
+  });
 
-    const q = questions[current];
+}
 
-    progressEl.innerText = `${current + 1} / ${questions.length}`;
-    questionEl.innerText = q.q;
-
-    answersEl.innerHTML = "";
-
-    q.answers.forEach(a => {
-      const btn = document.createElement("button");
-      btn.innerText = a.text;
-
-      btn.onclick = () => {
-        scores[a.type] += a.score;
-        total += a.score;
-        current++;
-        showQuestion();
-      };
-
-      answersEl.appendChild(btn);
-    });
-  }
-
-  /* ================= 결과 ================= */
-
- function result() {
+function showResult(){
 
   document.getElementById("quiz-screen").classList.add("hidden");
+
   document.getElementById("result-screen").classList.remove("hidden");
 
   let grade = "";
+  let desc = "";
 
-  if (total >= 44) grade = "MASTER";
-  else if (total >= 38) grade = "S";
-  else if (total >= 33) grade = "A";
-  else if (total >= 28) grade = "B";
-  else if (total >= 23) grade = "C";
-  else if (total >= 19) grade = "D";
-  else grade = "F";
+  if(total >= 44){
+    grade = "MASTER";
+    desc = "AI를 전략적으로 활용하며 비판적으로 분석할 수 있는 최상위 수준입니다.";
+  }
+
+  else if(total >= 38){
+    grade = "S";
+    desc = "AI 시대에 매우 높은 이해도와 활용 능력을 갖추고 있습니다.";
+  }
+
+  else if(total >= 33){
+    grade = "A";
+    desc = "AI를 효과적으로 활용하며 변화에 잘 적응하는 유형입니다.";
+  }
+
+  else if(total >= 28){
+    grade = "B";
+    desc = "AI 활용 능력이 평균 이상이며 성장 가능성이 높습니다.";
+  }
+
+  else if(total >= 23){
+    grade = "C";
+    desc = "기본적인 AI 활용은 가능하지만 더 깊은 이해가 필요합니다.";
+  }
+
+  else if(total >= 19){
+    grade = "D";
+    desc = "AI 활용 경험이 부족하며 적극적인 학습이 필요합니다.";
+  }
+
+  else{
+    grade = "F";
+    desc = "AI 시대 적응을 위한 관심과 학습이 필요한 단계입니다.";
+  }
 
   document.getElementById("result-screen").innerHTML = `
-    <div class="screen">
-      <h1>결과</h1>
 
-      <h2>${grade}</h2>
+    <h1>테스트 결과</h1>
 
-      <p>총점: ${total}</p>
+    <div class="result-grade">${grade}</div>
 
-      <hr>
+    <h2>${total}점</h2>
 
-      <p>A 점수: ${scores.A}</p>
-      <p>B 점수: ${scores.B}</p>
-      <p>C 점수: ${scores.C}</p>
-
-      <button onclick="location.reload()">다시하기</button>
+    <div class="desc">
+      ${desc}
     </div>
+
+    <div class="score-box">
+
+      <h3>세부 능력 분석</h3>
+
+      <div class="bar-wrap">
+        <div class="bar-title">
+          AI 활용 능숙도 (A) : ${scores.A}점
+        </div>
+
+        <div class="bar">
+          <div class="fill" style="width:${scores.A / 16 * 100}%"></div>
+        </div>
+      </div>
+
+      <div class="bar-wrap">
+        <div class="bar-title">
+          AI 사회 이해도 (B) : ${scores.B}점
+        </div>
+
+        <div class="bar">
+          <div class="fill" style="width:${scores.B / 16 * 100}%"></div>
+        </div>
+      </div>
+
+      <div class="bar-wrap">
+        <div class="bar-title">
+          AI 비판적 사고 (C) : ${scores.C}점
+        </div>
+
+        <div class="bar">
+          <div class="fill" style="width:${scores.C / 16 * 100}%"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <button onclick="location.reload()">
+      다시 테스트하기
+    </button>
+
   `;
+
 }
 
-});
+</script>
+
+</body>
+</html>
